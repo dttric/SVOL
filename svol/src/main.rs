@@ -8,6 +8,9 @@ use std::time::Duration;
 use console::Term;
 use console::Style;
 use colorized::*;
+use std::io::Write;
+use std::io::Read;
+use std::env;
 
 /* функции */
 fn windows() -> bool
@@ -36,6 +39,8 @@ fn log(text: &str)
 
 fn main()
 {
+  let args: Vec<String> = env::args().collect();
+  
   /* проверка на винду */
   if windows() == false {
     ret_error("Запустите программу на Windows!");
