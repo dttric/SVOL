@@ -39,7 +39,7 @@ fn main()
     format::fatal("Аргументы не верны! Команда: svol.exe ely.by-login=string ely.by-password=string X.XX.X=version")
   }
   /* discord модуль */
-  let discord_thread= thread::spawn(|| loop { { discord::init("Играет в игры", "debug"); thread::sleep(time::Duration::from_secs(10)); } });
+  let discord_thread= thread::spawn(move || loop { { discord::init("Играет в игры", "debug", f!("Игрок: {}", &args[1])); thread::sleep(time::Duration::from_secs(60)); } });
   format::success("Discord модуль загружен!");
   discord_thread.join().unwrap();
 }
