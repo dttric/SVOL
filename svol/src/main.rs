@@ -11,41 +11,32 @@ use colorized::*;
 use std::io::Write;
 use std::io::Read;
 use std::env;
+use std::format as f;
+mod discord;
+mod minecraft;
 
 /* функции */
-fn windows() -> bool
-{
-  if cfg!(target_os = "windows"){
-    return true;
-  } else {
-    return false;
-  }
-}
-
-fn ret_error(text: &str)
-{
-  println!("[ERROR] {}", text.color(Colors::RedBg))
-}
-
-fn ret_success(text: &str)
-{
-  println!("[SUCCESS] {}", text.color(Colors::GreenBg).color(Colors::BlackFg))
-}
-
-fn log(text: &str)
-{
-  println!("[LOG] {}", text.color(Colors::YellowBg).color(Colors::BlackFg))
-}
+fn windows() -> bool{ return if cfg!(target_os = "windows") { true } else { false }; }
+mod format;
 
 fn main()
 {
+  /* переменные */
   let args: Vec<String> = env::args().collect();
-  
   /* проверка на винду */
   if windows() == false {
-    ret_error("Запустите программу на Windows!");
+    format::fatal("Запустите программу на Windows!")
   } else {
-    ret_success("Ошибок не обнаружено...");
-    log("Запускаюсь...")
+    format::success("Ошибок запуска не обнаружено...");
   }
+  /* загрузка ядра */
+  format::log("Запускаю модули...");
+  format::log("Запуск модуля аргументов...");
+  /* модуль аргументов */
+  for i in 0..args.len() { println!("[ARGS] {}", f!("Аргумент №{} - {}", i, &args[i]).color(Colors::YellowBg).color(Colors::BlackFg)) }
+  if args.len() < 4 {
+    format::error("Аргументы не верны! Команда: svol.exe ely.by-login=string ely.by-password=string X.XX.X=version")
+  }
+  /* discord модуль */
+  discord::init();
 }
