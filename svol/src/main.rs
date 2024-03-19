@@ -4,7 +4,7 @@
 
 /* импорты */
 use std::thread;
-use std::time::Duration;
+use std::time;
 use console::Term;
 use console::Style;
 use colorized::*;
@@ -14,10 +14,11 @@ use std::env;
 use std::format as f;
 mod discord;
 mod minecraft;
+mod format;
 
 /* функции */
 fn windows() -> bool{ return if cfg!(target_os = "windows") { true } else { false }; }
-mod format;
+
 
 fn main()
 {
@@ -35,8 +36,10 @@ fn main()
   /* модуль аргументов */
   for i in 0..args.len() { println!("[ARGS] {}", f!("Аргумент №{} - {}", i, &args[i]).color(Colors::YellowBg).color(Colors::BlackFg)) }
   if args.len() < 4 {
-    format::error("Аргументы не верны! Команда: svol.exe ely.by-login=string ely.by-password=string X.XX.X=version")
+    format::fatal("Аргументы не верны! Команда: svol.exe ely.by-login=string ely.by-password=string X.XX.X=version")
   }
   /* discord модуль */
-  discord::init();
+  let discord_thread= thread::spawn(|| loop { { discord::init("Играет в игры", "debug"); thread::sleep(time::Duration::from_secs(10)); } });
+  format::success("Discord модуль загружен!");
+  discord_thread.join().unwrap();
 }

@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 use colorized::*;
+use std::process::exit;
 pub fn error(text: &str) { println!("[ERROR] {}", text.color(Colors::RedBg)); }
 pub fn success(text: &str) { println!("[SUCCESS] {}", text.color(Colors::GreenBg).color(Colors::BlackFg)); }
 pub fn fatal(text: &str) { panic!("[FATAL] {}", text.color(Colors::RedBg)); }
