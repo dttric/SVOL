@@ -21,9 +21,11 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+cli_gui = "0.1.1"
 colorized = "1.0.0"
 console = "0.15.8"
 discord-rpc-client = "0.4.0"
 image = "0.25.0"
 minecraft_downloader_core = "0.1.6"
 minecraft_launcher_core = "=0.1.2"
+pancurses = "0.17.0"
